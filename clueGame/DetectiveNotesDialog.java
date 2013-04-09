@@ -16,6 +16,8 @@ public class DetectiveNotesDialog extends JDialog {
 
 	public DetectiveNotesDialog() {
 		
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		
 		String[] people = { "Miss Scarlet", "Colonel Mustard", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Professor Plum" };
 		String[] rooms = { "Study", "Hall", "Lounge", "Library", "Dining Room", "Billiard Room", "Conservatory", "Ballroom", "Kitchen"};
 		String[] weapons = { "Candlestick", "Knife", "Lead Pipe", "Revolver", "Rope", "Wrench" };	

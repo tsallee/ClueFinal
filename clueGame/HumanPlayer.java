@@ -20,6 +20,7 @@ public class HumanPlayer extends Player {
 		super(name, location, color);
 	}
 	
+	@Override
 	public void createSuggestion(String person, String room, String weapon) {
 		suggestion = new Suggestion(person, room, weapon);
 	}
@@ -39,6 +40,10 @@ public class HumanPlayer extends Player {
 			this.location = board.calcIndex(cellSelected.getRow() - 1, cellSelected.getColumn() - 1);
 			game.setHumanMustFinish(false);
 			board.getHighlightedRectangles().clear();
+			board.repaint();
+			if ( cellSelected.isRoom() ) {
+				SuggestionDialog suggestionDialog = new SuggestionDialog(((RoomCell) cellSelected).getName(), game, this, board);
+			}
 		}
 		board.repaint();
 	}

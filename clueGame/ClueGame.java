@@ -31,17 +31,17 @@ public class ClueGame extends JFrame {
 	private int whoseTurn;
 	private Board board;
 	private boolean humanMustFinish = false;
+	private boolean accusationButtonPushed = false;
 	private Player currentPlayer;
-
-	public Board getBoard() {
-		return board;
-	}
+	DetectiveNotesDialog detectiveDialog;
 
 	public ClueGame() {
 		solution = new Solution();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
 		board = new Board();
+		
+		detectiveDialog = new DetectiveNotesDialog();
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -208,8 +208,21 @@ public class ClueGame extends JFrame {
 		for ( int i = 0; i < p.size(); ++i ) {
 			index = (i + r) % p.size();
 			disprove = p.get(index).disproveSuggestion(player.getSuggestion());
-			if ( disprove != null)
+			Card disproveCard = new Card();
+			if ( disprove != null) {
+				for ( Card c : cards) {
+					if ( disprove.equals(c.getName())) {
+						disproveCard = c;
+					}
+				}
+				for ( Player pl : players ) {
+					if ( pl.isComputer() ) {
+						((ComputerPlayer) pl).updateSeen(disproveCard);
+					}
+						
+				}
 				return disprove;
+			}
 		}
 		return null;
 	}
@@ -236,7 +249,6 @@ public class ClueGame extends JFrame {
 		JMenuItem item = new JMenuItem("Detective Notes");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DetectiveNotesDialog detectiveDialog = new DetectiveNotesDialog();
 				detectiveDialog.setVisible(true);
 			}
 	    });
@@ -329,5 +341,17 @@ public class ClueGame extends JFrame {
 	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+
+	public void setAccusationButtonPushed(boolean pushed) {
+		accusationButtonPushed = pushed;		
+	}
+
+	public boolean accusationButtonPushed() {
+		return accusationButtonPushed;
 	}
 }

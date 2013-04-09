@@ -28,6 +28,8 @@ public class Player {
 	protected Board board;
 	protected ClueGame game;
 	
+	protected Solution accusation;
+	
 	public Player() {
 		name = null;
 		cards = new ArrayList<Card>();
@@ -95,7 +97,9 @@ public class Player {
 		return false;
 	}
 	
-	public void createSuggestion() {}
+	public void createSuggestion(String person, String room, String weapon) {
+		
+	}
 
 	public String getName() {
 		return name;
@@ -205,6 +209,21 @@ public class Player {
 	
 	public void checkSelectedCell(BoardCell cell) {
 		
+	}
+	
+	public boolean isComputer() {
+		return false;
+	}
+	
+	public Solution getAccusation() {
+		if ( accusation == null ) {
+			return new Solution("", "", "");
+		}
+		return accusation;
+	}
+	
+	public void setAccusation(Solution accusation) {
+		this.accusation = accusation;
 	}
 	
 }

@@ -74,7 +74,7 @@ public class ControlTopPanel extends JPanel {
 				this.game = game;
 			}
 			public void actionPerformed(ActionEvent e) {
-				
+				AccusationDialog accusationDialog = new AccusationDialog(game, game.getCurrentPlayer(), game.getBoard());
 			}
 		}
 		button.addActionListener(new ButtonListener(game));

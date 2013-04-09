@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
+
+import javax.swing.JOptionPane;
+
 import clueGame.BoardCell;
 
 public class ComputerPlayer extends Player {
@@ -31,7 +34,12 @@ public class ComputerPlayer extends Player {
 	
 	public void makeMove(Set<BoardCell> targets) {
 		if (makeAccusation) {
-			
+			accusation = new Solution(suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
+			System.out.println("made an accusation");
+			if ( game.checkAccusation(accusation)) {
+				JOptionPane popup = new JOptionPane();
+				popup.showMessageDialog(game, "Game over. " + name + " wins.", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		game.setHumanMustFinish(false);
 		cellSelected = pickLocation(targets);
@@ -42,6 +50,8 @@ public class ComputerPlayer extends Player {
 			createSuggestion(currentRoom, game.getCards());
 			game.getControlPanel().setGuess(suggestion.toString());
 			String disprove = game.handleSuggestion(this);
+			if ( disprove == null )
+				disprove = "No new clue!";
 			game.getControlPanel().setResult(disprove);
 			String target = suggestion.getPerson();
 			for (Player p: game.getPlayers()) {
@@ -50,7 +60,6 @@ public class ComputerPlayer extends Player {
 					break;
 				}
 			}
-			
 			if (disprove == null) {
 				makeAccusation = true;
 			}
@@ -86,8 +95,6 @@ public class ComputerPlayer extends Player {
 		super.addCard(card);
 		updateSeen(card);
 	}
-	
-	
 	
 	public void createSuggestion(String room, ArrayList<Card> cards) {
 		Random rand = new Random();
@@ -134,5 +141,10 @@ public class ComputerPlayer extends Player {
 	
 	public void setLastRoom(char last) {
 		lastRoomVisited = last;
+	}
+	
+	@Override
+	public boolean isComputer() {
+		return true;
 	}
 }
