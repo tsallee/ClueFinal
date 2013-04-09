@@ -1,0 +1,6 @@
+
+C,!,6,,W,W,2,R,R,R,R,R,W,L,L,L,L,L,W,W,S,S,S
+C,C,C,C,C,W,W,R,R,R,R,R,W,L,L,L,L,L,W,W,S,S,S
+C,C,5,C,C,W,W,R,R,R,R,R,W,LD,L,L,L,L,W,W,S,S,S
+C,C,C,C,C,W,W,R,R,R,R,R,W,L,L,L,L,L,W,W,S,S,S
+C,C,C,CR,W,W,W,R,RD,R,R,R,W,L,L,L,L,L,W,W,SL,S,S
