@@ -25,7 +25,7 @@ public class SuggestionDialog extends JDialog {
 	private JComboBox weaponsBox;
 	
 	private String[] people = { "Miss Scarlet", "Colonel Mustard", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Professor Plum" };
-	private String[] weapons = { "Candlestick", "Knife", "Lead Pipe", "Revolver", "Rope", "Wrench" };
+	private String[] weapons = { "Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Wrench" };
 	
 	public SuggestionDialog(String room, ClueGame game, Player player, Board board) {
 		
@@ -70,6 +70,9 @@ public class SuggestionDialog extends JDialog {
 				player.createSuggestion(person, room, weapon);
 				game.getControlPanel().setGuess(player.getSuggestion().toString());
 				String disprove = game.handleSuggestion(player);
+				if (disprove == null) {
+					disprove = "No new clue!";
+				}
 				game.getControlPanel().setResult(disprove);
 				String target = player.getSuggestion().getPerson();
 				for (Player p: game.getPlayers()) {

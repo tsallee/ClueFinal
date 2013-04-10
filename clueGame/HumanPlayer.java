@@ -28,14 +28,16 @@ public class HumanPlayer extends Player {
 	public void makeMove(Set<BoardCell> targetList) {
 		targets = targetList;
 		board.highlightTargets(targets);
+		game.setAccusationButtonPushed(false);
 	}
 	
 	public void checkSelectedCell(BoardCell cell) {
 		if ( !targets.contains(cell) ) {
 			JOptionPane popup = new JOptionPane();
-			String message = "Error: Invalid location";
-			popup.showMessageDialog(game, message, "Error", JOptionPane.INFORMATION_MESSAGE);
+			String message = "ERROR: Invalid location";
+			popup.showMessageDialog(game, message, "ERROR", JOptionPane.INFORMATION_MESSAGE);
 		} else {
+			game.setAccusationButtonPushed(true);
 			cellSelected = cell;
 			this.location = board.calcIndex(cellSelected.getRow() - 1, cellSelected.getColumn() - 1);
 			game.setHumanMustFinish(false);

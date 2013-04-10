@@ -28,7 +28,7 @@ public class AccusationDialog extends JDialog {
 
 	private String[] rooms = { "Study", "Hall", "Lounge", "Library", "Dining Room", "Billiard Room", "Conservatory", "Ballroom", "Kitchen"};
 	private String[] people = { "Miss Scarlet", "Colonel Mustard", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Professor Plum" };
-	private String[] weapons = { "Candlestick", "Knife", "Lead Pipe", "Revolver", "Rope", "Wrench" };
+	private String[] weapons = { "Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Wrench" };
 
 	public AccusationDialog (ClueGame game, Player player, Board board) {
 
@@ -41,7 +41,7 @@ public class AccusationDialog extends JDialog {
 		weaponsBox = new JComboBox(weapons);
 
 		setLayout(new GridLayout(4, 2));
-		setSize(300, 250);
+		setSize(400, 250);
 		setTitle("Make an accusation");
 
 		add(new JLabel("Room guess:"));
@@ -64,41 +64,42 @@ public class AccusationDialog extends JDialog {
 			public ButtonListener(ClueGame game) {
 				this.game = game;
 			}
-			public void actionPerformed(ActionEvent e) {
-				if ( !game.accusationButtonPushed() ) {
-					int personIndex = peopleBox.getSelectedIndex();
-					int weaponIndex = weaponsBox.getSelectedIndex();
-					int roomIndex = roomsBox.getSelectedIndex();
+			public void actionPerformed(ActionEvent e) {	
+				game.setAccusationButtonPushed(true);
 
-					person = people[personIndex];
-					room = rooms[roomIndex];
-					weapon = weapons[weaponIndex];
+				int personIndex = peopleBox.getSelectedIndex();
+				int weaponIndex = weaponsBox.getSelectedIndex();
+				int roomIndex = roomsBox.getSelectedIndex();
 
-					player.createSuggestion(person, room, weapon);
-					game.getControlPanel().setGuess(player.getSuggestion().toString());
-					String disprove = game.handleSuggestion(player);
-					game.getControlPanel().setResult(disprove);
+				person = people[personIndex];
+				room = rooms[roomIndex];
+				weapon = weapons[weaponIndex];
 
-					player.setAccusation(new Solution(person, room, weapon));
-					
-					game.setAccusationButtonPushed(true);
-					
-					if ( game.checkAccusation(player.getAccusation()) ) {
-						JOptionPane popup = new JOptionPane();
-						popup.showMessageDialog(game, "Congratulations. " + player.getName() + " wins.", "YOU WIN!!", JOptionPane.INFORMATION_MESSAGE);
-					}
-					game.nextTurn();
-					dispose();
+				player.setAccusation(new Solution(person, room, weapon));
+				Suggestion suggestion = new Suggestion(person, room, weapon);
+
+				if ( game.checkAccusation(player.getAccusation()) ) {
+					JOptionPane popup = new JOptionPane();
+					popup.showMessageDialog(game, "Congratulations. " + player.getName() + " wins." +
+						"The solution was " + suggestion + ".", "YOU WIN!!", JOptionPane.INFORMATION_MESSAGE);
+					game.GAME_OVER = true;
+				} else {
+					JOptionPane popup = new JOptionPane();
+					popup.showMessageDialog(game, "Sorry, that guess is incorrect.", "Incorrect Guess", JOptionPane.INFORMATION_MESSAGE);
 				}
+				
+				board.getHighlightedRectangles().clear();
+				board.repaint();
+				game.setHumanMustFinish(false);
+				dispose();
 			}
 		}
-		
 		button.addActionListener(new ButtonListener(game));
 		return button;
 	}
 
 	private JButton createCancelButton(ClueGame g) {
-		JButton button = new JButton("Cancel");
+		JButton button = new JButton("Cancel and move instead");
 		class ButtonListener implements ActionListener {
 			private ClueGame game;
 			public ButtonListener(ClueGame game) {

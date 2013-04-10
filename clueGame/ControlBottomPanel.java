@@ -64,5 +64,11 @@ public class ControlBottomPanel extends JPanel {
 	public void setResult(String result) {
 		resultField.setText(result);
 	}
+	
+	public void clearAllFields() {
+		rollField.setText("");
+		guessField.setText("");
+		resultField.setText("");
+	}
 
 }

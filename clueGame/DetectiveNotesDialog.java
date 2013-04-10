@@ -20,7 +20,7 @@ public class DetectiveNotesDialog extends JDialog {
 		
 		String[] people = { "Miss Scarlet", "Colonel Mustard", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Professor Plum" };
 		String[] rooms = { "Study", "Hall", "Lounge", "Library", "Dining Room", "Billiard Room", "Conservatory", "Ballroom", "Kitchen"};
-		String[] weapons = { "Candlestick", "Knife", "Lead Pipe", "Revolver", "Rope", "Wrench" };	
+		String[] weapons = { "Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Wrench" };	
 		
 		setTitle("Detective Notes");
 		setSize(700, 400);
@@ -49,7 +49,7 @@ public class DetectiveNotesDialog extends JDialog {
 		personComboPanel.add( new JComboBox(people));
 		personGuessPanel.add(personComboPanel);
 		
-		for ( int i = 0; i < 6; ++i ) {
+		for ( int i = 0; i < 9; ++i ) {
 			roomPanel.add(new JCheckBox(rooms[i]));
 		}
 		

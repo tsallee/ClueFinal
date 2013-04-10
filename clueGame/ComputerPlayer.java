@@ -12,33 +12,37 @@ import clueGame.BoardCell;
 public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
 	private ArrayList<Card> seen;
-	private boolean makeAccusation;
+	private boolean makeAccusation = false;
 	
 	public ComputerPlayer() {
 		super();
 		seen = new ArrayList<Card>();
-		makeAccusation = false;
 	}
 	
 	public ComputerPlayer(String name, int location) {
 		super(name, location);
 		seen = new ArrayList<Card>();
-		makeAccusation = false;
 	}
 	
 	public ComputerPlayer(String name, int location, String color) {
 		super(name, location, color);
 		seen = new ArrayList<Card>();
-		makeAccusation = false;
 	}
 	
 	public void makeMove(Set<BoardCell> targets) {
 		if (makeAccusation) {
+			makeAccusation = false;
 			accusation = new Solution(suggestion.getPerson(), suggestion.getRoom(), suggestion.getWeapon());
-			System.out.println("made an accusation");
 			if ( game.checkAccusation(accusation)) {
 				JOptionPane popup = new JOptionPane();
-				popup.showMessageDialog(game, "Game over. " + name + " wins.", "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+				popup.showMessageDialog(game, "Game over. " + name + " wins. The solution was " +
+						suggestion, "GAME OVER", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				JOptionPane popup = new JOptionPane();
+				popup.showMessageDialog(game, game.getCurrentPlayer().getName() + " thinks it was " + 
+				suggestion + ". This accusation was incorrect.",
+				"Someone made an accusation!", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		game.setHumanMustFinish(false);
@@ -50,8 +54,10 @@ public class ComputerPlayer extends Player {
 			createSuggestion(currentRoom, game.getCards());
 			game.getControlPanel().setGuess(suggestion.toString());
 			String disprove = game.handleSuggestion(this);
-			if ( disprove == null )
+			if ( disprove == null ) {
+				makeAccusation = true;
 				disprove = "No new clue!";
+			}
 			game.getControlPanel().setResult(disprove);
 			String target = suggestion.getPerson();
 			for (Player p: game.getPlayers()) {
@@ -59,9 +65,6 @@ public class ComputerPlayer extends Player {
 					p.setLocation(board.calcIndex(cellSelected.getRow() - 1, cellSelected.getColumn() - 1));
 					break;
 				}
-			}
-			if (disprove == null) {
-				makeAccusation = true;
 			}
 			board.repaint();
 		}

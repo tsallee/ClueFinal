@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -74,11 +75,20 @@ public class ControlTopPanel extends JPanel {
 				this.game = game;
 			}
 			public void actionPerformed(ActionEvent e) {
-				AccusationDialog accusationDialog = new AccusationDialog(game, game.getCurrentPlayer(), game.getBoard());
+				if ( !game.accusationButtonPushed() && !game.getCurrentPlayer().isComputer() ) {
+					AccusationDialog accusationDialog = new AccusationDialog(game, game.getCurrentPlayer(), game.getBoard());
+				} else {
+					JOptionPane popup = new JOptionPane();
+					popup.showMessageDialog(game, "ERROR: Your turn is over!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		}
 		button.addActionListener(new ButtonListener(game));
 		return button;
+	}
+	
+	public void clearAllFields() {
+		whoseTurnField.setText("");
 	}
 
 }

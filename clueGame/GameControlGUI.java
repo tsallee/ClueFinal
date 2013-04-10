@@ -46,6 +46,11 @@ public class GameControlGUI extends JPanel {
 	public void setResult(String result) {
 		bottomPanel.setResult(result);
 	}
+	
+	public void clearAllFields() {
+		bottomPanel.clearAllFields();
+		topPanel.clearAllFields();
+	}
 
 
 }
